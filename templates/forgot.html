@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='forgot.css') }}">
+    <title>Forgot Password</title>
+</head>
+<body>
+<form method=POST action="/forgotPassword"> 
+    <div class="forgot-header">
+        <header> Enter your email </header>
+    </div>
+    <div class="input-box">
+        <input type="text" name="Email" id="Email" class="input-field" placeholder="Email" autocomplete="off"
+            required>
+    </div>
+    <button class="btn"> 
+        Reset 
+    </button>
+    </form>
+    </body>
+    </html>
+    <!--From Uiverse.io by CristianMontoya98 */ --!/>

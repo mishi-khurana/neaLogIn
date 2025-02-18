@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='signstyle.css') }}">
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <title>Sign up</title>
+</head>
+<body>
+    <form method=POST action="/addUser"> 
+        <div class = "signup-header">
+            <h1> Sign Up</h1>
+        </div>
+        <div class = "input-box">
+            <input type = "text" name = "Name" id = "Name" class = "input-field" placeholder = "Name"  autocomplete = "off" required>
+        </div>
+        <div class = "input-box">
+            <input type = "text" name = "Surname" id = "Surname" class = "input-field" placeholder = "Surname"  autocomplete = "off" required>
+        </div>
+        <div class = "input-box">
+            <input type = "text" name = "Email2" id = "Email2" class = "input-field" placeholder = "Email"  autocomplete = "off" required>
+        </div>
+        <div class = "input-box">
+            <input type = "text" name = "Password" id = "Password" class = "input-field" placeholder = "Password"  autocomplete = "off" required>
+        </div>
+        
+        <div class = "input-box">
+            <input type = "text" name = "Password2" id = "Password2" class = "input-field" placeholder = "Re-Enter Password"  autocomplete = "off" required>
+        </div>
+       
+        </div>
+        <div class = "input-register">
+            <button class = "register-btn" id = "register"></button>
+            <label for = "register"> Sign Up! </label>"
+      
+          
+     
+    </form>
+
+</div>
+<div class = "back-btn">
+    <a href="{{ url_for('hello') }}"> Go Back</a>
+</div>
+
+    {% with messages = get_flashed_messages(with_categories=True) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            <div class="flash-{{ category }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+  
+    </div></body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='list.css') }}">
+    <title>Recommended Songs</title>
+</head>
+<body>
+    <h1>Recommended Songs for "{{ Word1 }}", "{{ Word2 }}" and "{{ Word3 }}"</h1>
+    <ul>
+        {% for song in songs %}
+            <li>
+                <strong>{{ song.title }}</strong> by {{ song.artist }}
+                <br>Album: {{ song.album }}
+                <br>Release Date: {{ song.release_date }}
+                <br>Popularity: {{ song.popularity }}
+                <br>Duration: {{ song.duration_ms|int / 60000|round(2) }} minutes
+                {% if song.preview_url %}
+                    <br><audio controls>
+                        <source src="{{ song.preview_url }}" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                {% endif %}
+                <br><a href="{{ song.url }}" target="_blank">Listen on Spotify</a>
+                <!-- Embed Spotify Web Player -->
+                <br><iframe src="https://open.spotify.com/embed/track/{{ song.spotify_id }}" width="300" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

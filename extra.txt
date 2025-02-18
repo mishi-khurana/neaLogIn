@@ -1,0 +1,439 @@
+''' def get_words():
+     return Word1, Word2, Word3
+    data = get_data()
+    
+
+    sql = "INSERT INTO words (words) VALUES (%s)"
+    cursor.execute(sql, (Word1,))
+    cursor.execute(sql, (Word2,))
+    cursor.execute(sql, (Word3,))
+    # cursor.execute("INSERT INTO words (words) VALUES(%s)", (Word1))
+    # conn.commit()
+    # cursor.execute("INSERT INTO words (words) VALUES(%s)", (Word2))
+    # conn.commit()
+    # cursor.execute("INSERT INTO words (words) VALUES(%s)", (Word3))
+    conn.commit()'''
+
+
+
+     '''spotify = spotipy.Spotify(client_credentials_manager='1fa3b4e9cc7a4159a6d5b6d29b93938a')
+        scope = "user-read-playback-state,user-modify-playback-state"
+        sp = spotipy.Spotify(client_credentials_manager=SpotifyOAuth(scope=scope))
+        res = sp.devices()
+        pprint(res)
+
+    # Change track
+        sp.start_playback(uris=['spotify:track:6gdLoMygLsgktydTQ71b15'])
+
+    # Change volume
+        sp.volume(100)
+        sleep(2)
+        sp.volume(50)
+        sleep(2)
+        sp.volume(100)'''
+
+
+track_details = sp.tracks(trackIds)
+    for track in track_details['tracks']:
+             songNames.append(f"Track Name: {track['name']}")
+    print (songNames)
+
+
+    print(r.metadata)
+            fullId = r.metadata.get("song_id")
+            '''songName = r.metadata.get("title")
+            songNames.append(songName)'''
+            trackIds.append(fullId)
+        print (trackIds)
+
+
+        else:
+        for r in rec:
+            print(r.metadata)
+            fullId = r.metadata.get("song_id")
+            '''songName = r.metadata.get("title")
+            songNames.append(songName)'''
+            trackIds.append(fullId)
+        print (trackIds)
+
+
+
+        {% for r in rec %}
+        <div class="track">
+            <img src="{{ track['album']['images'][0]['url'] }}" alt="Album cover">
+            <p>{{ track['name'] }}</p>
+            <p>{{ track['artists'][0]['name'] }}</p>
+        </div>
+    {% endfor %}
+
+     for r in rec:
+            print(r.metadata)
+            fullId = r.metadata.get("song_id")
+            songDetails.append(fullId)
+
+        tracks = sp.tracks(songDetails)
+        data = json.dumps(tracks)
+        pprint(data)
+
+    return render_template('list.html', Word1 = Word1, Word2 = Word2, Word3 = Word3, data = data)
+
+
+
+     {% print("Hello World") %}
+    {% for track in data%}
+    <h3> TrackID: {{track}} </h3> 
+    {%track_details = sp.tracks(trackIds)%}
+    for track in track_details['tracks']:
+             print(f"Track Name: {track['name']}")
+{% endfor %}
+
+
+
+
+def suggestion(Word1, Word2, Word3):
+
+    model = OllamaLLM(model="llama3.1", temperature=0.0)
+    embedding = OllamaEmbeddings(model="llama3.1")
+
+    db_dir = 'data/chroma/'
+
+    vectordb = Chroma(
+     persist_directory=db_dir,
+     embedding_function=embedding
+     )
+
+
+
+    metadata_field_info = [
+    AttributeInfo(
+        name="song_id",
+        description="song id",
+        type="string",
+    ),
+    AttributeInfo(
+        name="title",
+        description="Name of song",
+        type="string",
+    ),
+]
+
+    document_content_description = "Lyrics of song"
+
+    '''retriever = SelfQueryRetriever.from_llm(
+    model,
+    vectordb,
+    document_content_description,
+    metadata_field_info,
+    verbose=True
+)'''
+    retriever = vectordb.as_retriever(search_kwargs={"k": 10})  # Retrieve top 10 similar results
+
+    words = Word1, Word2, Word3
+    
+    
+
+ 
+    '''question = {f"Imagine you are listening to a song with the words '{words[0]}', '{words[1]}' and '{words[2]}'. What is are the names of the songs?"}
+    print (question)'''
+    query = f"{words[0]} {words[1]} {words[2]}"  # Proper text format
+    query_embedding = embedding.embed_query(query)  # Convert to vector
+    query_embedding = np.array(query_embedding)
+    query_embedding /= np.linalg.norm(query_embedding)  
+    print("Query embedding:", query_embedding[:20])
+
+
+    '''res = retriever.invoke(question)'''
+    res = vectordb.max_marginal_relevance_search_by_vector(
+        query_embedding, 
+        k=15,  # Number of results
+        fetch_k=1000,  # Number of results to fetch
+        lambda_mult=0.7  # 0.5 balances similarity & diversity
+    )
+    '''res = chroma_client.query(
+    query_embeddings=[query_embedding], 
+    n_results=10, 
+    mmr=True,  # Enables diverse recommendations
+    lambda_mult=0.5  # Adjust this (0.0 = max diversity, 1.0 = max similarity)
+)'''
+
+    
+    print(f"Query embedding vector (first 10 values): {query_embedding[:15]}")
+
+    return res 
+
+
+    summarise words in 20/30 words, get essence
+    lyrics, chat gpt, summarise lyrics in x words
+
+
+
+# Load from the correct directory
+    db_dir = 'data/chroma_33words/'
+    vectordb = Chroma(persist_directory='data/chroma_33words/', embedding_function=embedding)
+    
+
+    vectordb = Chroma(
+     persist_directory=db_dir,
+     embedding_function=embedding
+     )
+
+    print("Total stored embeddings:", vectordb._collection.count())
+    
+
+    query = f" {Word1} {Word2} {Word3}"
+    query_embedding = embedding.embed_query(query)
+    query_embedding = np.array(query_embedding)
+    query_embedding /= np.linalg.norm(query_embedding)
+    print("Query embedding:", query_embedding[:20])
+    
+ 
+    res = vectordb.max_marginal_relevance_search_by_vector(
+        query_embedding, 
+        k=15, fetch_k=50, 
+        lambda_mult=0
+    )
+
+
+    # you are loading db using path here
+    new_db = FAISS.load_local("data/my_songs_db", embeddings, allow_dangerous_deserialization=True)
+
+
+    results_with_scores = new_db.similarity_search(f"The song is about {Word1}, {Word2} and {Word3}.", k=10)
+
+    for doc in results_with_scores:
+        print(f"Score: {doc.page_content}")
+
+
+    retriever = BM25Retriever.from_documents(results_with_scores, preprocess_func=word_tokenize)
+
+    
+
+    result = retriever.invoke(f"{Word1}, {Word2} and {Word3}")    
+    
+
+
+     ''' db_dir = 'data/chroma/
+    vectordb = Chroma(persist_directory='data/chroma_1line/', embedding_function=embedding)
+
+
+    vectordb = Chroma(
+     persist_directory=db_dir,
+     embedding_function=embedding
+     )
+
+
+
+    metadata_field_info = [
+    AttributeInfo(
+        name="song_id",
+        description="song id",
+        type="string",
+    ),
+    AttributeInfo(
+        name="title",
+        description="Name of song",
+        type="string",
+    ),
+]
+
+    document_content_description = "Lyrics of song"
+
+    retriever = SelfQueryRetriever.from_llm(
+    model,
+    vectordb,
+    document_content_description,
+    metadata_field_info,
+    verbose=True
+)
+    retriever = vectordb.as_retriever(search_kwargs={"k": 10})  # Retrieve top 10 similar results
+
+    words = Word1, Word2, Word3
+    
+    
+
+ 
+    question = {f"Imagine you are listening to a song with the words '{words[0]}', '{words[1]}' and '{words[2]}'. What is are the names of the songs?"}
+    print (question)
+    query = f"{words[0]} {words[1]} {words[2]}"  # Proper text format
+    query_embedding = embedding.embed_query(query)  # Convert to vector
+    query_embedding = np.array(query_embedding)
+    query_embedding /= np.linalg.norm(query_embedding)  
+    print("Query embedding:", query_embedding[:20])
+
+
+    res = retriever.invoke(question)
+    res = vectordb.max_marginal_relevance_search_by_vector(
+        query_embedding, 
+        k=15,  # Number of results
+        fetch_k=1000,  # Number of results to fetch
+        lambda_mult=0.7  # 0.5 balances similarity & diversity
+    )
+    res = chroma_client.query(
+    query_embeddings=[query_embedding], 
+    n_results=10, 
+    mmr=True,  # Enables diverse recommendations
+    lambda_mult=0.5  # Adjust this (0.0 = max diversity, 1.0 = max similarity)
+)
+
+    
+    print(f"Query embedding vector (first 10 values): {query_embedding[:15]}")'''
+    
+    
+
+
+
+
+
+    '''db = 'data/chroma_33words/'
+    vectordb = Chroma(persist_directory='data/chroma_33words/', embedding_function=embedding)   
+    vectordb = Chroma(
+    persist_directory=db,
+    embedding_function=embedding)
+
+    new_results = vectordb.similarity_search(f"The song is about {Word1}, {Word2} and {Word3}.", k=15)
+
+    for r in new_results:
+        print(r)'''
+        
+
+
+ ''' db_dir = 'data/chroma/
+    vectordb = Chroma(persist_directory='data/chroma_1line/', embedding_function=embedding)
+
+
+    vectordb = Chroma(
+     persist_directory=db_dir,
+     embedding_function=embedding
+     )
+
+
+
+    metadata_field_info = [
+    AttributeInfo(
+        name="song_id",
+        description="song id",
+        type="string",
+    ),
+    AttributeInfo(
+        name="title",
+        description="Name of song",
+        type="string",
+    ),
+]
+
+    document_content_description = "Lyrics of song"
+
+    retriever = SelfQueryRetriever.from_llm(
+    model,
+    vectordb,
+    document_content_description,
+    metadata_field_info,
+    verbose=True
+)
+    retriever = vectordb.as_retriever(search_kwargs={"k": 10})  # Retrieve top 10 similar results
+
+    words = Word1, Word2, Word3
+    
+    
+
+ 
+    question = {f"Imagine you are listening to a song with the words '{words[0]}', '{words[1]}' and '{words[2]}'. What is are the names of the songs?"}
+    print (question)
+    query = f"{words[0]} {words[1]} {words[2]}"  # Proper text format
+    query_embedding = embedding.embed_query(query)  # Convert to vector
+    query_embedding = np.array(query_embedding)
+    query_embedding /= np.linalg.norm(query_embedding)  
+    print("Query embedding:", query_embedding[:20])
+
+
+    res = retriever.invoke(question)
+    res = vectordb.max_marginal_relevance_search_by_vector(
+        query_embedding, 
+        k=15,  # Number of results
+        fetch_k=1000,  # Number of results to fetch
+        lambda_mult=0.7  # 0.5 balances similarity & diversity
+    )
+    res = chroma_client.query(
+    query_embeddings=[query_embedding], 
+    n_results=10, 
+    mmr=True,  # Enables diverse recommendations
+    lambda_mult=0.5  # Adjust this (0.0 = max diversity, 1.0 = max similarity)
+)
+
+    
+    print(f"Query embedding vector (first 10 values): {query_embedding[:15]}")'''
+    
+    
+
+
+
+
+
+    '''db = 'data/chroma_33words/'
+    vectordb = Chroma(persist_directory='data/chroma_33words/', embedding_function=embedding)   
+    vectordb = Chroma(
+    persist_directory=db,
+    embedding_function=embedding)
+
+    new_results = vectordb.similarity_search(f"The song is about {Word1}, {Word2} and {Word3}.", k=15)
+
+    for r in new_results:
+        print(r)'''
+        
+
+
+
+
+           ''' if request.method == "POST":
+        email = request.form["Email"]
+        cursor.execute("SELECT * FROM logIn WHERE email = %s", (email,))
+        user = cursor.fetchone()
+
+        if user:
+            token = generate_reset_token(email)
+            reset_url = url_for("reset_password", token=token, _external=True)
+            
+            # Send Email
+           
+            
+            return redirect(url_for("home_page"))
+        else:
+            flash("No account found with this email.", "error")'''
+    
+        
+
+        '''@app.route('/reccomenadtions')    
+def reccomendations():  
+    track_details = sp.tracks(trackIds)
+    for track in track_details['tracks']:
+             print(f"Track Name: {track['name']}")
+             print(f"Artist(s): {', '.join(artist['name'] for artist in track['artists'])}")
+             print(f"Album: {track['album']['name']}")
+             print(f"Duration (ms): {track['duration_ms']}")
+             print(f"Popularity: {track['popularity']}")
+             print('cover art: ' + track['album']['images'][0]['url'])
+             print("-" * 30)'''
+
+    
+
+    '''print(r.metadata)
+            fullId = r.metadata.get("song_id")'''
+    '''songName = r.metadata.get("title")
+            songNames.append(songName)'''
+
+   
+    #tracks = sp.tracks(songDetails)
+    #data = json.dumps(tracks)
+    #pprint(data)''
+
+
+    '''@app.route('/song_data')
+def songdata():
+    taylor_uri = 'spotify:artist:06HL4z0CvFAxyc27GXpf02'
+    results = sp.artist_albums(taylor_uri, album_type='album')
+    albums = results['items']
+    while results['next']:
+        results = sp.next(results)
+        albums.extend(results['items'])
+    for album in albums:
+        print(album['name'])'''

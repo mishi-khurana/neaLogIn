@@ -1,0 +1,88 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap');
+
+/* General Reset */
+body {
+    margin: 0;
+    font-family: 'Poppins',sans-serif;
+    background-color: #dfdfdf;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Header Styling */
+h1 {
+    text-align: center;
+    color: #444;
+    margin-top: 20px;
+    font-size: 2.5rem;
+}
+
+/* Song List Container */
+ul {
+    list-style: none;
+    padding: 0;
+    max-width: 800px;
+    margin: 20px auto;
+}
+
+/* Song List Items */
+li {
+    background: #ffffff;
+    margin: 15px 0;
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+/* Hover Effect */
+li:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Song Title */
+li strong {
+    font-size: 1.2rem;
+    color: #222;
+    margin-bottom: 5px;
+}
+
+/* Additional Details */
+li span {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+/* Spotify Link */
+li a {
+    color: #1db954;
+    font-weight: bold;
+    text-decoration: none;
+    margin-top: 10px;
+    display: inline-block;
+}
+
+li a:hover {
+    text-decoration: underline;
+}
+
+/* Audio Preview */
+audio {
+    margin-top: 10px;
+    width: 100%;
+    border-radius: 4px;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    li {
+        padding: 10px 15px;
+    }
+    h1 {
+        font-size: 2rem;
+    }
+}

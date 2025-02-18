@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <title>Log in</title>
+</head>
+
+<body>
+    <form method=POST action="/hello">
+        <div class="login-box">
+            <div class="login-header">
+                <header> Log in </header>
+            </div>
+            <div class="input-box">
+                <input type="text" name="Email" id="Email" class="input-field" placeholder="Email" autocomplete="off"
+                    required>
+            </div>
+            <div class="input-box">
+                <input type="password" name="password" id="password" class="input-field" placeholder="Password"
+                    autocomplete="off" required>
+            </div>
+            <div class="forgot">
+                <section>
+                    <input type="checkbox" id="checkbox">
+                    <label for="checkbox">  Show Password</label>
+                </section>
+                <script>
+                    let password = document.getElementById("password");
+                    let checkbox = document.getElementById("checkbox");
+
+                    checkbox.onclick = function () {
+                        if (checkbox.checked) {
+                            password.type = "text";
+                        } else {
+                            password.type = "password";
+                        }
+                    }
+
+
+                </script>
+                <section>
+                    <a href="{{ url_for('forgotPassword') }}"> Forgot Password</a>
+                </section>
+            </div>
+            <div class="input-submit">
+                <button class="submit-btn" id="submit"></button>
+                <label for="submit"> Sign In </label>"
+            </div>
+            <div class="sign-up-link">
+                <p> Don't have an account? <a href="{{ url_for('signup_page') }}"> Sign Up </a> </p>
+            </div>
+            <div class="guest-link">
+                <p> Don't want an account? <a href="{{ url_for('home_page') }}"> Continue as guest </a> </p>
+            </div>
+            
+
+
+    </form>
+   
+
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=True) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            <div class="flash-{{ category }}">{{ message }}</div>
+        {% endfor %}
+        
+        <script>
+            
+            setTimeout(function() { 
+                const flashMessages = document.querySelectorAll('[class^="flash-"]');
+                flashMessages.forEach(function(msg) {
+                    msg.style.display = 'none';
+                });
+            }, 1000);  // 3000ms = 3 seconds
+        </script>
+    {% endif %}
+{% endwith %}
+
+
+</body>
+
+</html>

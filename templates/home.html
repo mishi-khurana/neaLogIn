@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='hdes.css') }}">
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <title>Log in</title>
+</head>
+<body>
+<form method=POST action="/addWord"> 
+<div class = "homepage">
+    <h1> Enter 3 Words</h1>
+</div>
+<input type = "text" name = "Word1" id = "Word1" class = "input" placeholder = " "  autocomplete = "off" required>
+<input type = "text" name = "Word2" id = "Word2" class = "input" placeholder = " "  autocomplete = "off" required>
+<input type = "text" name = "Word3" id = "Word3" class = "input" placeholder = " "  autocomplete = "off" required>
+<button> Let's Go! </button>
+</form>
+</body>
+</html>
