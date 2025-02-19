@@ -1,9 +1,8 @@
 from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_ollama import OllamaEmbeddings, OllamaLLM
-from langchain.document_loaders import JSONLoader
+# from langchain.document_loaders import JSONLoader
 from langchain_community.vectorstores import FAISS
 from langchain_community.document_loaders import JSONLoader
-
 
 
 def metadata_func(record: dict, metadata: dict) -> dict:
@@ -20,11 +19,10 @@ loader = JSONLoader(
     jq_schema='.[]',
     content_key="lyrics",
     metadata_func=metadata_func
-
     )
 
 docs = loader.load()
-print(docs[0])  # Print the first record to verify fields
+print("Verifying fields", docs[0])  # Print the first record to verify fields
 faiss_db_path = "data/test_DB"
 print("1")
 db = FAISS.from_documents(docs, embedding)

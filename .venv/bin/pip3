@@ -1,4 +1,6 @@
-#!/Users/mishika/Coding/python/.venv/bin/python3.12
+#!/bin/sh
+'''exec' "/Volumes/Programming/Python Projects/neaLogIn/.venv/bin/python" "$0" "$@"
+' '''
 # -*- coding: utf-8 -*-
 import re
 import sys
