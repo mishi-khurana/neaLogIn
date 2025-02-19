@@ -1,0 +1,25 @@
+# Ignore the FAISS index folder
+faiss_index/
+
+# Ignore virtual environments
+.venv/
+
+# Ignore macOS system files
+.DS_Store
+
+# Ignore Python cache and compiled files
+__pycache__/
+*.py[cod]
+*.so
+
+# Ignore Jupyter Notebook checkpoints (if using Jupyter)
+.ipynb_checkpoints/
+
+# Ignore logs and temp files
+logs/
+*.log
+*.tmp
+
+# Ignore environment files
+.env
+*.env

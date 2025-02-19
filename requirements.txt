@@ -7,3 +7,8 @@ langchain-ollama
 jq
 chromadb
 lark
+faiss-cpu
+ipykernel
+notebook
+pandas
+numpy
